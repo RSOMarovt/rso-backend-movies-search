@@ -1,12 +1,14 @@
 var axios = require('axios');
 var etcd = require('./etcd');
 
+var config = require('./config');
+
 global_stream_api = null;
 
 etcdWatcher = null;
 
 module.exports.findService = () => {
-    return etcd.getValuesInDir('/environments/dev/services/stream-service/1.0.0/instances/').then((res) => {
+    return etcd.getValuesInDir(`/environments/${config.env}/services/stream-service/1.0.0/instances/`).then((res) => {
         try {
           var finalNode = res.node.nodes[0].nodes[0];
           var key = finalNode.key;
