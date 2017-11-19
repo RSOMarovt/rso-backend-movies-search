@@ -10,6 +10,7 @@ etcdWatcher = null;
 module.exports.findService = () => {
     return etcd.getValuesInDir(`/environments/${config.env}/services/stream-service/1.0.0/instances/`).then((res) => {
         try {
+          console.log(res);
           var finalNode = res.node.nodes[0].nodes[0];
           var key = finalNode.key;
           var url = finalNode.value;
@@ -41,9 +42,9 @@ module.exports.connect = (url) => {
 
 module.exports.getAllActiveStreams = () => {
     return new Promise((resolve, reject) => {
-        global_stream_api.get('/v1/streams').then((data) => {
+        global_stream_api.get('/v1/streams').then((res) => {
             console.log('DATA FROM OTHER SERVER!!!');
-            resolve(data);
+            resolve(res.data);
         }).catch((err) => {
             console.log('PROBLEM GETTING DATA FROM OTHER SERVER!!!');
         });
