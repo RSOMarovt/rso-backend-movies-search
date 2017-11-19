@@ -27,7 +27,8 @@ app.listen(config.port, config.host);
 console.log(`Running on http://${config.host}:${config.port}`);
 
 etcd.connect(config.etcdUrl).then(() => {
-  console.log('Connected to etcd server!');
+
+  console.log('Connected to etcd server!', config.etcdUrl);
   
   // register service -> register na kubernetes, najbrz ne tako ampak preko ENV
   etcd.setValue('rso_backend_movies_url', `http://${config.host}:${config.port}`).then(() => {
