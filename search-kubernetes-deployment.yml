@@ -1,0 +1,21 @@
+apiVersion: apps/v1beta1
+kind: Deployment
+metadata:
+  name: search-deployment
+spec:
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: search
+    spec:
+      containers:
+      - image: banomaster/rso-backend-movies-search:latest
+        name: search
+        env:
+          - name: ETCD_URL
+            value: http://etcd:2379
+        ports:
+        - containerPort: 8081
+          name: server
+          protocol: TCP
