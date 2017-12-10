@@ -11,7 +11,14 @@ var streamApi = require('./streamApi');
 // App
 const app = express();
 app.get('/', (req, res) => {
-  res.send('Hello world\n');
+  res.send({
+    clani: ['um5606'],
+    opis_projekta: 'Moj projekt bo implementiral movie stream aplikacijo. Trenutno sta implementirani dve storitvi, ki med sabo kumunicirata in se upesno poisceta preko etcd registra. Na java storitvi so opravljene vse domace naloge, vendar je aplikacija se vedno brez konteksta.',
+    mikrostoritve: ["http://169.51.16.3:31017/v1/streams", "http://169.51.16.3:31437/streams"],
+    github: ["https://github.com/RSOMarovt/rso-backend-movie-stream", "https://github.com/RSOMarovt/rso-backend-movies-search"],
+    travis: ["https://travis-ci.org/RSOMarovt/rso-backend-movie-stream", "https://travis-ci.org/RSOMarovt/rso-backend-movies-search"],
+    dockerhub: ["https://hub.docker.com/r/banomaster/rso-backend-movie-stream/", "https://hub.docker.com/r/banomaster/rso-backend-movies-search/"]
+  });
 });
 
 app.get('/streams', (req, res) => {

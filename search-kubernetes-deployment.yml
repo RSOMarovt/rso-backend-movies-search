@@ -10,14 +10,17 @@ spec:
         app: search
     spec:
       containers:
-      - image: banomaster/rso-backend-movies-search:latest
+      - image: index.docker.io/banomaster/rso-backend-movies-search:latest
         name: search
+        imagePullPolicy: Always
         env:
           - name: ETCD_URL
             value: http://etcd:2379
           - name: ENV
-            value: prod
+            value: dev
         ports:
         - containerPort: 8081
           name: server
           protocol: TCP
+      imagePullSecrets:
+      - name: myregistrykey
