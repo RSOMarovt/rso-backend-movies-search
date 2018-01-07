@@ -39,18 +39,24 @@ module.exports.connect = (url) => {
     logit.info('Connect to stream service.');
     globalStreamApi = axios.create({
         baseURL: url,
-        timeout: 10000
+        timeout: 10000,
+
     });
 }
 
 const getAllStreams = () => {
     return new Promise((resolve, reject) => {
+        if (!globalStreamApi) {
+            return;
+        }
+
         globalStreamApi.get('/v1/streams').then((res) => {
             resolve(res.data);
         }).catch((err) => {
-            logit.error('PROBLEM GETTING DATA FROM OTHER SERVER!!!');
+            console.log('PROBLEM GETTING DATA FROM OTHER SERVER!!!');
+            reject({err: 'Error'});
         });
-    });
+    }).catch(err => console.log('WTF'));
 }
 
 const saveStream = (data) => {
@@ -67,4 +73,5 @@ const saveStream = (data) => {
 } 
 
 module.exports.getAllStreams = circuitBreaker(getAllStreams, {timeout: 1000, maxFailures: 3, resetTimeout: 30000});
+// module.exports.getAllStreams = getAllStreams;
 module.exports.saveStream = circuitBreaker(saveStream, {timeout: 1000, maxFailures: 3, resetTimeout: 30000});

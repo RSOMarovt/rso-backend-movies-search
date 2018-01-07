@@ -101,7 +101,7 @@ app.get('/streams', (req, res) => {
 
       logit.info(`GET /streams - End with response length: ${streams.length} items.`)
     }).fail(err => {
-      logit.error(`GET /streams - BREAKER`, err);
+      logit.error(`GET /streams - BREAKER ${err}`);
       const streams = locStreams.map(locStream => {
         const stream = {};
         stream.location = locStream.location;
