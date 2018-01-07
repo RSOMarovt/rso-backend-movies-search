@@ -36,7 +36,7 @@ module.exports.findService = () => {
 }
 
 module.exports.connect = (url) => {
-    logit.info('Connect to stream service.');
+    logit.info('Connect to stream service. ' + url);
     globalStreamApi = axios.create({
         baseURL: url,
         timeout: 10000,
@@ -47,6 +47,7 @@ module.exports.connect = (url) => {
 const getAllStreams = () => {
     return new Promise((resolve, reject) => {
         if (!globalStreamApi) {
+            console.log('No global stream api');
             return;
         }
 
@@ -56,7 +57,7 @@ const getAllStreams = () => {
             console.log('PROBLEM GETTING DATA FROM OTHER SERVER!!!');
             reject({err: 'Error'});
         });
-    }).catch(err => console.log('WTF'));
+    })
 }
 
 const saveStream = (data) => {
@@ -73,5 +74,5 @@ const saveStream = (data) => {
 } 
 
 module.exports.getAllStreams = circuitBreaker(getAllStreams, {timeout: 5000, maxFailures: 3, resetTimeout: 30000});
-// module.exports.getAllStreams = getAllStreams;
+module.exports.getAllStreamsWithoutBreaker = getAllStreams;
 module.exports.saveStream = circuitBreaker(saveStream, {timeout: 5000, maxFailures: 3, resetTimeout: 30000});
