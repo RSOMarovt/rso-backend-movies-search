@@ -72,6 +72,6 @@ const saveStream = (data) => {
     });
 } 
 
-module.exports.getAllStreams = circuitBreaker(getAllStreams, {timeout: 1000, maxFailures: 3, resetTimeout: 30000});
+module.exports.getAllStreams = circuitBreaker(getAllStreams, {timeout: 5000, maxFailures: 3, resetTimeout: 30000});
 // module.exports.getAllStreams = getAllStreams;
-module.exports.saveStream = circuitBreaker(saveStream, {timeout: 1000, maxFailures: 3, resetTimeout: 30000});
+module.exports.saveStream = circuitBreaker(saveStream, {timeout: 5000, maxFailures: 3, resetTimeout: 30000});
