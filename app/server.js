@@ -116,6 +116,41 @@ app.get('/streams', (req, res) => {
   });
 });
 
+app.get('/streamsNoBreaker', (req, res) => {
+  const lat = req.query.lat;
+  const lng = req.query.lng;
+
+  logit.info(`GET /streams - Called with parameters: lat: ${lat}, lng: ${lng}.`)
+
+  mongo.getLocationStreams(lat,lng).then(locStreams => {
+    streamApi.getAllStreamsWithoutBreaker().then(allStreams => {
+      const allStreamsMap = {};
+      allStreams.forEach(s => allStreamsMap[s.id] = s);
+      const streams = locStreams.map(locStream => {
+        const stream = allStreamsMap[locStream.stream_id];
+        stream.location = locStream.location;
+        return stream;
+      });
+
+      res.status(200).send(streams);
+
+      logit.info(`GET /streams - End with response length: ${streams.length} items.`)
+    }).catch(err => {
+      logit.error(`GET /streams - BREAKER ${err}`);
+      const streams = locStreams.map(locStream => {
+        const stream = {};
+        stream.location = locStream.location;
+        return stream;
+      });
+
+      res.status(200).send(streams);
+    });
+  }).catch(err => {
+    logit.error('GET /streams - ERROR: ', err);
+    res.status(500).send(err);
+  });
+});
+
 
 app.post('/streams', (req, res) => {
   const body = req.body;
