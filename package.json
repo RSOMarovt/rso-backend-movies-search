@@ -5,12 +5,17 @@
   "author": "First Last <first.last@example.com>",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node ./app/server.js"
   },
   "dependencies": {
     "axios": "^0.17.1",
+    "body-parser": "^1.18.2",
+    "circuitbreaker": "^0.2.1",
     "express": "^4.13.3",
+    "express-metrics": "^1.1.0",
+    "healthcheck-middleware": "^1.0.1",
     "mongodb": "^2.2.33",
-    "node-etcd": "^5.1.0"
+    "node-etcd": "^5.1.0",
+    "node-logitio": "^1.0.3"
   }
 }
