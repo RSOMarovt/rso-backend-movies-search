@@ -22,7 +22,7 @@ logit.init(config.logitApiKey, {
     "applicationName": config.appName,
     "applicationVersion": config.appVersion
   },
-  logToConsole: config.env == 'dev',
+  logToConsole: true,
   disableSending: config.env == 'dev'
 });
 
@@ -160,7 +160,7 @@ app.use('/health', healthcheck({
 }));
 
 app.listen(config.port, config.host);
-logit.info(`Running on http://${config.host}:${config.port}`);
+logit.info(`Running on http://${config.host}:${config.port}. ENV: ${config.env}`);
 
 
 

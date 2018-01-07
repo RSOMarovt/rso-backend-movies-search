@@ -1,3 +1,6 @@
+console.log('PROCESS ENV:', process.env.ENV);
+console.log('PROCESS ETCD_URL', process.env.ETCD_URL);
+
 module.exports = {
     env: process.env.ENV || 'dev',
     etcdUrl: process.env.ETCD_URL || 'http://localhost:2379',
