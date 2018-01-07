@@ -17,7 +17,7 @@ spec:
           - name: ETCD_URL
             value: http://etcd:2379
           - name: ENV
-            value: dev
+            value: prod
         ports:
         - containerPort: 8081
           name: server
