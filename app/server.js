@@ -123,7 +123,7 @@ app.get('/streamsNoBreaker', (req, res) => {
   logit.info(`GET /streams - Called with parameters: lat: ${lat}, lng: ${lng}.`)
 
   mongo.getLocationStreams(lat,lng).then(locStreams => {
-    streamApi.getAllStreamsWithoutBreaker().then(allStreams => {
+    streamApi.getAllStreamsNoBreaker().then(allStreams => {
       const allStreamsMap = {};
       allStreams.forEach(s => allStreamsMap[s.id] = s);
       const streams = locStreams.map(locStream => {
@@ -165,6 +165,25 @@ app.post('/streams', (req, res) => {
       logit.info(`POST /streams - Ended.`)
     });
   }).fail((err) => {
+    logit.error(`POST /stream - BREAKER`, err);
+    
+    res.status(503).send({});
+  });
+});
+
+app.post('/streamsNoBreaker', (req, res) => {
+  const body = req.body;
+
+  logit.info(`POST /streams - Called.`)
+
+  streamApi.saveStreamNoBreaker(body).then(streamId => {
+    body.stream_id = streamId;
+    mongo.saveLocationStream(body).then(() => {
+      res.status(200).send(body);
+
+      logit.info(`POST /streams - Ended.`)
+    });
+  }).catch((err) => {
     logit.error(`POST /stream - BREAKER`, err);
     
     res.status(503).send({});

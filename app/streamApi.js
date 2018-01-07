@@ -74,5 +74,7 @@ const saveStream = (data) => {
 } 
 
 module.exports.getAllStreams = circuitBreaker(getAllStreams, {timeout: 5000, maxFailures: 3, resetTimeout: 30000});
-module.exports.getAllStreamsWithoutBreaker = getAllStreams;
 module.exports.saveStream = circuitBreaker(saveStream, {timeout: 5000, maxFailures: 3, resetTimeout: 30000});
+
+module.exports.getAllStreamsNoBreaker = getAllStreams;
+module.exports.saveStreamNoBreaker = saveStream;
